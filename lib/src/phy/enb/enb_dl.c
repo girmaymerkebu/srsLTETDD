@@ -299,7 +299,7 @@ static void put_sync(srslte_enb_dl_t* q)
 {
   uint32_t sf_idx = q->dl_sf.tti % 10;
 
-  if (sf_idx == 0 || sf_idx == 5) {
+ /* if (sf_idx == 0 || sf_idx == 5) {
     for (int p = 0; p < q->cell.nof_ports; p++) {
       srslte_pss_put_slot(q->pss_signal, q->sf_symbols[p], q->cell.nof_prb, q->cell.cp);
       srslte_sss_put_slot(sf_idx ? q->sss_signal5 : q->sss_signal0, q->sf_symbols[p],
@@ -307,6 +307,31 @@ static void put_sync(srslte_enb_dl_t* q)
     }
   }  
 }
+*/
+//Merkebu:Putting the TDD PSS/SSS 
+
+  if (sf_idx == 0 || sf_idx == 5) {
+    for (int p = 0; p < q->cell.nof_ports; p++) {
+  
+      /*srslte_sss_put_slot(sf_idx ? q->sss_signal5 : q->sss_signal0, q->sf_symbols[p],
+                          q->cell.nof_prb, SRSLTE_CP_NORM);*/ 
+
+      srslte_sss_put_slot_TDD(sf_idx ? q->sss_signal5 : q->sss_signal0, q->sf_symbols[p],
+                          q->cell.nof_prb, SRSLTE_CP_NORM);
+    }
+  }  
+if (sf_idx == 1 || sf_idx == 6) {
+    for (int p = 0; p < q->cell.nof_ports; p++) {
+      //Merkebu: srslte_pss_put_slot(q->pss_signal, q->sf_symbols[p], q->cell.nof_prb, q->cell.cp);
+      srslte_pss_put_slot_TDD(q->pss_signal, q->sf_symbols[p], q->cell.nof_prb, q->cell.cp);
+    }
+  }  
+}
+
+//end: Merkebu
+
+
+
 
 static void put_refs(srslte_enb_dl_t* q)
 {
