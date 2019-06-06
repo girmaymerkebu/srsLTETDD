@@ -384,13 +384,25 @@ void srslte_pss_put_slot(cf_t *pss_signal, cf_t *slot, uint32_t nof_prb, srslte_
   memcpy(&slot[k], pss_signal, SRSLTE_PSS_LEN * sizeof(cf_t));
   memset(&slot[k + SRSLTE_PSS_LEN], 0, 5 * sizeof(cf_t));
 }
-
+//Merkebu:  PSS modification for TDD
+void srslte_pss_put_slot_TDD(cf_t *pss_signal, cf_t *slot, uint32_t nof_prb, srslte_cp_t cp) {
+  int k;
+  k = (SRSLTE_CP_NSYMB(cp) - 5) * nof_prb * SRSLTE_NRE + nof_prb * SRSLTE_NRE / 2 - 31; //Merkebu: pss at the 3rd symbol
+  memset(&slot[k - 5], 0, 5 * sizeof(cf_t));
+  memcpy(&slot[k], pss_signal, SRSLTE_PSS_LEN * sizeof(cf_t));
+  memset(&slot[k + SRSLTE_PSS_LEN], 0, 5 * sizeof(cf_t));
+}
 void srslte_pss_get_slot(cf_t *slot, cf_t *pss_signal, uint32_t nof_prb, srslte_cp_t cp) {
   int k;
   k = (SRSLTE_CP_NSYMB(cp) - 1) * nof_prb * SRSLTE_NRE + nof_prb * SRSLTE_NRE / 2 - 31;
   memcpy(pss_signal, &slot[k], SRSLTE_PSS_LEN * sizeof(cf_t));
 }
-
+//Merkebu:modification for TDD
+void srslte_pss_get_slot_TDD(cf_t *slot, cf_t *pss_signal, uint32_t nof_prb, srslte_cp_t cp) {
+  int k;
+  k = (SRSLTE_CP_NSYMB(cp) - 5) * nof_prb * SRSLTE_NRE + nof_prb * SRSLTE_NRE / 2 - 31;
+  memcpy(pss_signal, &slot[k], SRSLTE_PSS_LEN * sizeof(cf_t));
+}
 /** Sets the current N_id_2 value. Returns -1 on ERROR(0 otherwise
  */
 int srslte_pss_set_N_id_2(srslte_pss_t *q, uint32_t N_id_2) {
