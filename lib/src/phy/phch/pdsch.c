@@ -136,6 +136,12 @@ int srslte_pdsch_cp(srslte_pdsch_t*       q,
               if (s == 0 && (sf_idx == 1 || sf_idx == 6) && (l == 2)) {
                 skip_symbol = true;
               }
+//Merkebu
+//uplink subframes + special subframe configuration 3
+if (sf_idx == 2 || sf_idx == 3 || sf_idx == 4 ||(s == 1 && sf_idx == 1) || ((s == 0 && sf_idx == 1) && (l>2)))  {
+                skip_symbol = true;
+              }
+
             }
             // PBCH same in FDD and TDD
             if (s == 1 && sf_idx == 0 && l < 4) {
