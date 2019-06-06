@@ -98,6 +98,11 @@ SRSLTE_API void srslte_sss_put_slot(float *sss,
                                     cf_t *symbol, 
                                     uint32_t nof_prb, 
                                     srslte_cp_t cp);
+//Merkebu
+SRSLTE_API void srslte_sss_put_slot_TDD(float *sss, 
+                                    cf_t *symbol, 
+                                    uint32_t nof_prb, 
+                                    srslte_cp_t cp);
 
 SRSLTE_API void srslte_sss_put_symbol(float* sss, cf_t* symbol, uint32_t nof_prb);
 

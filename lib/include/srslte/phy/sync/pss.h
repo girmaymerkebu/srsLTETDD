@@ -149,7 +149,18 @@ SRSLTE_API void srslte_pss_get_slot(cf_t *slot,
                                     uint32_t nof_prb, 
                                     srslte_cp_t cp); 
 
+//Merkebu
+SRSLTE_API void srslte_pss_get_slot_TDD(cf_t *slot, 
+                                    cf_t *pss_signal, 
+                                    uint32_t nof_prb, 
+                                    srslte_cp_t cp); 
+
 SRSLTE_API void srslte_pss_put_slot(cf_t *pss_signal, 
+                                    cf_t *slot, 
+                                    uint32_t nof_prb, 
+                                    srslte_cp_t cp);
+//Merkebu
+SRSLTE_API void srslte_pss_put_slot_TDD(cf_t *pss_signal, 
                                     cf_t *slot, 
                                     uint32_t nof_prb, 
                                     srslte_cp_t cp);

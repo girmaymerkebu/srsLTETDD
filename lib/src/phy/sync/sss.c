@@ -117,7 +117,21 @@ void srslte_sss_put_slot(float *sss, cf_t *slot, uint32_t nof_prb, srslte_cp_t c
     memset(&slot[k + SRSLTE_SSS_LEN], 0, 5 * sizeof(cf_t));
   }
 }
+//Merkebu: SSS for TDD 
+void srslte_sss_put_slot_TDD(float *sss, cf_t *slot, uint32_t nof_prb, srslte_cp_t cp) {
+  uint32_t i, k;
 
+  k = (2*SRSLTE_CP_NSYMB(cp) - 1) * nof_prb * SRSLTE_NRE + nof_prb * SRSLTE_NRE / 2 - 31;//at symbol 6 of slot 1
+  
+  if (k > 5) {
+    memset(&slot[k - 5], 0, 5 * sizeof(cf_t));
+    for (i = 0; i < SRSLTE_SSS_LEN; i++) {
+      __real__ slot[k + i] = sss[i];
+      __imag__ slot[k + i] = 0;
+    }
+    memset(&slot[k + SRSLTE_SSS_LEN], 0, 5 * sizeof(cf_t));
+  }
+}
 /** Sets the SSS correlation peak detection threshold */
 void srslte_sss_set_threshold(srslte_sss_t *q, float threshold) {
   q->corr_peak_threshold = threshold;
