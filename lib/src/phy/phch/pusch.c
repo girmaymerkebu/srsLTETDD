@@ -52,7 +52,7 @@ const static srslte_mod_t modulations[4] =
 static int pusch_cp(
     srslte_pusch_t* q, srslte_pusch_grant_t* grant, cf_t* input, cf_t* output, bool is_shortened, bool advance_input)
 {
-  cf_t* in_ptr  = input;
+ cf_t* in_ptr  = input;
   cf_t* out_ptr = output;
 
   uint32_t L_ref = 3;
@@ -90,13 +90,19 @@ static int pusch_cp(
   }
 }
 
+
+
+
+
 static int pusch_put(srslte_pusch_t* q, srslte_pusch_grant_t* grant, cf_t* input, cf_t* output, bool is_shortened)
 {
+
   return pusch_cp(q, grant, input, output, is_shortened, true);
 }
 
 static int pusch_get(srslte_pusch_t* q, srslte_pusch_grant_t* grant, cf_t* input, cf_t* output, bool is_shortened)
 {
+
   return pusch_cp(q, grant, input, output, is_shortened, false);
 }
 
@@ -406,6 +412,9 @@ int srslte_pusch_encode(
     srslte_dft_precoding(&q->dft_precoding, q->d, q->z, cfg->grant.L_prb, cfg->grant.nof_symb);
 
     // Mapping to resource elements
+
+if (sf->tti % 10 ==2 || sf->tti % 10 ==3 || sf->tti % 10 ==4)
+ {
     uint32_t n = pusch_put(q, &cfg->grant, q->z, sf_symbols, sf->shortened);
     if (n != cfg->grant.nof_re) {
       ERROR("Error trying to allocate %d symbols but %d were allocated (tti=%d, short=%d, L=%d)\n",
@@ -416,7 +425,7 @@ int srslte_pusch_encode(
             cfg->grant.L_prb);
       return SRSLTE_ERROR;
     }
-
+}
     ret = SRSLTE_SUCCESS;
   } 
   return ret; 
@@ -459,6 +468,9 @@ int srslte_pusch_decode(srslte_pusch_t*        q,
          cfg->grant.tb.rv);
 
     /* extract symbols */
+//Merkebu: uplink subframes for TDD configuration 3
+if (sf->tti % 10 ==2 || sf->tti % 10 ==3 || sf->tti % 10 ==4)
+ {
     n = pusch_get(q, &cfg->grant, sf_symbols, q->d, sf->shortened);
     if (n != cfg->grant.nof_re) {
       ERROR("Error expecting %d symbols but got %d\n", cfg->grant.nof_re, n);
@@ -471,7 +483,7 @@ int srslte_pusch_decode(srslte_pusch_t*        q,
       ERROR("Error expecting %d symbols but got %d\n", cfg->grant.nof_re, n);
       return SRSLTE_ERROR;
     }
-
+}
     // Equalization
     srslte_predecoding_single(q->d, q->ce, q->z, NULL, cfg->grant.nof_re, 1.0f, channel->noise_estimate);
 
