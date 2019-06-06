@@ -382,11 +382,12 @@ static float estimate_noise_pilots(srslte_chest_dl_t* q, srslte_dl_sf_cfg_t* sf,
 
 static float estimate_noise_pss(srslte_chest_dl_t *q, cf_t *input, cf_t *ce) 
 {
+//Merkebu
   /* Get PSS from received signal */
-  srslte_pss_get_slot(input, q->tmp_pss, q->cell.nof_prb, q->cell.cp);
+  srslte_pss_get_slot_TDD(input, q->tmp_pss, q->cell.nof_prb, q->cell.cp);
 
   /* Get channel estimates for PSS position */
-  srslte_pss_get_slot(ce, q->tmp_pss_noisy, q->cell.nof_prb, q->cell.cp);
+  srslte_pss_get_slot_TDD(ce, q->tmp_pss_noisy, q->cell.nof_prb, q->cell.cp);
 
   /* Multiply known PSS by channel estimates */
   srslte_vec_prod_ccc(q->tmp_pss_noisy, q->pss_signal, q->tmp_pss_noisy, SRSLTE_PSS_LEN);
