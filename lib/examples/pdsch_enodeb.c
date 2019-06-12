@@ -846,13 +846,19 @@ int main(int argc, char **argv) {
     for (sf_idx = 0; sf_idx < SRSLTE_NOF_SF_X_FRAME && (nf < nof_frames || nof_frames == -1); sf_idx++) {
       /* Set Antenna port resource elements to zero */
       bzero(sf_symbols[0], sizeof(cf_t) * sf_n_re);
-
+//Merkebu
 
       if (sf_idx == 0 || sf_idx == 5) {
-        srslte_pss_put_slot(pss_signal, sf_symbols[0], cell.nof_prb, SRSLTE_CP_NORM);
-        srslte_sss_put_slot(sf_idx ? sss_signal5 : sss_signal0, sf_symbols[0], cell.nof_prb,
+       
+        srslte_sss_put_slot_TDD(sf_idx ? sss_signal5 : sss_signal0, sf_symbols[0], cell.nof_prb,
             SRSLTE_CP_NORM);
       }
+
+if (sf_idx == 1 || sf_idx == 6)
+{
+      srslte_pss_put_slot_TDD(pss_signal, sf_symbols[0], cell.nof_prb, SRSLTE_CP_NORM);
+}
+   
      
       /* Copy zeros, SSS, PSS into the rest of antenna ports */
       for (i = 1; i < cell.nof_ports; i++) {
