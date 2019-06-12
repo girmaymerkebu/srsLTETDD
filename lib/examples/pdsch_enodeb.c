@@ -905,11 +905,11 @@ if (sf_idx == 1 || sf_idx == 6)
           }
         }
         /* Uncomment this to transmit on sf 0 and 5 only  */
-        if (sf_idx != 0 && sf_idx != 5) {
+       /* if (sf_idx != 0 && sf_idx != 5) {
           send_data = true; 
         } else {
           send_data = false;           
-        }
+        }*/
       }
       if (send_data) {
         if (mch_table[sf_idx] == 0 || mbsfn_area_id < 0) { // PDCCH + PDSCH
